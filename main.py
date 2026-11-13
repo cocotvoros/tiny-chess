@@ -36,7 +36,7 @@ def T(p,i):
  a=abs(p);f=i%8;r=i//8;u=abs(f-3)
  if p<0:r=7-r
  v=abs(r-3)
- return (V[a]+(r*3+3-u,12-2*u-2*v,6-u-v,6*(r==6),4-u,12-6*r)[a-1])*p//abs(p)
+ return (V[a]+(r*3+3-u,12-2*u-2*v,6-u-v,6*(r==6),4-u,6-u-v)[a-1])*p//abs(p)
 def M(b,f,t,p,s,c,e):
  v=b[f];w=p*s if p else v;cs=t-8*s if v*v==1 and t==e else t;q=b[cs]
  d=T(w,t)-T(v,f)
