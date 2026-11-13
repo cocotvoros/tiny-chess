@@ -4,7 +4,7 @@ U=os.getenv("MAKEFUN_ENV_URL")
 V=(0,100,320,330,500,900,0)
 N=[(1,2),(2,1),(2,-1),(1,-2),(-1,-2),(-2,-1),(-2,1),(-1,2)]
 B=[(-1,-1),(-1,1),(1,-1),(1,1)];R=[(-1,0),(1,0),(0,-1),(0,1)];G=B+R;Q='abcdefgh'
-Y=[0];Z=50000;H=[0]
+Y=[0];Z=75000;H=[0]
 X=Exception
 def P(f):
  a=f.split();b=[0]*64;r=7
@@ -121,7 +121,7 @@ def C(f,legal):
   Y[0]=0
   try:
    cur=None;bv=a=-30000
-   for m in sorted(ms,key=lambda m:-O(b,m)):
+   for m in sorted(ms,key=lambda m:(m!=best,-O(b,m))):
     x=E(b,m,s,c,e,d-1,a,30000,1)
     if x>bv:bv=x;cur=m
     if x>a:a=x
@@ -129,7 +129,7 @@ def C(f,legal):
   except X:break
  return W(best)
 def h(p,y):
- with urlopen(Request(U+p,json.dumps(y).encode())) as z:return json.load(z)
+ with urlopen(U+p,json.dumps(y).encode()) as z:return json.load(z)
 while U:
  g=h('/game',{})
  if g['status']=='done':break
