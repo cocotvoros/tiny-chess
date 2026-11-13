@@ -1,7 +1,7 @@
 import json,os
 from urllib.request import*
 U=os.getenv("MAKEFUN_ENV_URL")
-V=(0,100,320,330,500,900,20000)
+V=(0,100,320,330,500,900,0)
 N=[(1,2),(2,1),(2,-1),(1,-2),(-1,-2),(-2,-1),(-2,1),(-1,2)]
 B=[(-1,-1),(-1,1),(1,-1),(1,1)];R=[(-1,0),(1,0),(0,-1),(0,1)];G=B+R;Q='abcdefgh'
 Y=[0];Z=12000
@@ -28,7 +28,7 @@ def A(b,q,w):
    while 0<=x<8 and 0<=y<8:
     p=b[y*8+x]
     if p:
-     if p==w*t or p==w*5:return 1
+     if p in(w*t,w*5):return 1
      break
     x+=df;y+=dr
  return 0
@@ -85,7 +85,7 @@ def E(b):
   if p:
    a=abs(p);v=V[a];f=i%8;r=i//8
    if p<0:r=7-r
-   v+=r*8+5-abs(f-3) if a==1 else (12-(abs(f-3)+abs(r-3))*4) if a==2 else 6 if a==3 else (2-r)*6
+   v+=r*8 if a==1 else 12-2*(abs(f-3)+abs(r-3)) if a==2 else 6 if a==3 else 6*(r==6) if a==4 else 4-abs(f-3) if a==5 else (2-r)*6
    s+=v if p>0 else -v
  return s
 def O(b,m):return 900+V[m[2]] if m[2] else V[abs(b[m[1]])]*10-V[abs(b[m[0]])]
@@ -97,12 +97,11 @@ def S(b,s,c,e,d,a,be,pl):
   v=E(b)*s
   if v>=be:return be
   if v>a:a=v
-  ms=L(b,s,c,e)
-  if not ms:return -20000+pl if A(b,k0,-s) else 0
-  if not A(b,k0,-s):ms=[m for m in ms if b[m[1]] or m[1]==e or m[2]]
-  if not ms:return a
+  ic=A(b,k0,-s);ms=L(b,s,c,e)
+  if not ms:return -20000+pl if ic else 0
+  if not ic:ms=[m for m in ms if b[m[1]] or m[1]==e or m[2]]
  else:
-  ms=L(b,s,c,e)
+  ic=1;ms=L(b,s,c,e)
   if not ms:return -20000+pl if A(b,k0,-s) else 0
  ms.sort(key=lambda m:-O(b,m));best=-30000
  for m in ms:
@@ -110,11 +109,10 @@ def S(b,s,c,e,d,a,be,pl):
   if x>best:best=x
   if best>a:a=best
   if a>=be:break
- return best
+ return best if ic else max(a,best)
 def W(m):return f'{Q[m[0]%8]}{m[0]//8+1}{Q[m[1]%8]}{m[1]//8+1}'+('qn'[m[2]==2] if m[2] else '')
 def C(f,legal):
  b,s,c,e=P(f);ms=L(b,s,c,e)
- if not ms:return legal[0]
  ms=[m for m in ms if W(m) in legal] or ms
  best=ms[0];Y[0]=0
  for d in range(1,6):
