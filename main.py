@@ -65,7 +65,7 @@ def L(b,s,c,e,q=0):
      if 0<=x<8 and (not b[j] if df==0 else b[j]*s<0 or j==e):
       if y in(0,7):m+=[(i,j,5),(i,j,2)]
       else:
-       if not q:m.append((i,j,0))
+       if not q or df:m.append((i,j,0))
        if not q and not df and r==(1 if s>0 else 6) and not b[j+d]:m.append((i,j+d,0))
   else:
    ds=N if t==2 else G if t>4 else B if t==3 else R
@@ -122,7 +122,7 @@ def C(f,legal):
   try:
    cur=None;bv=a=-30000
    for m in sorted(ms,key=lambda m:-O(b,m)):
-    x=E(b,m,s,c,e,d-1,-30000,-a,1)
+    x=E(b,m,s,c,e,d-1,a,30000,1)
     if x>bv:bv=x;cur=m
     if x>a:a=x
    best=cur
